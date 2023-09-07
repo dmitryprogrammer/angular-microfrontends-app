@@ -1,28 +1,34 @@
-const webpack = require('webpack');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
+const webpack = require("webpack");
+const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 module.exports = {
   output: {
-    publicPath: "https://localhost:4201/",
+    publicPath: "https://localhost:4200",
     uniqueName: "layout"
   },
   optimization: {
-    runtimeChunk: false,
+    runtimeChunk: false
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: 'layout',
-      library: {type: 'var', name: 'layout'},
-      filename: "remoteEntry.js",
-      exposes: {
-        Header: './src/app/modules/layout/header/header.component.ts',
-        Footer: './src/app/modules/layout/footer/footer.component.ts'
-      },
       shared: {
-        "@angular/core": {singleton: true, requiredVersion: 'auto'},
-        "@angular/common": {singleton: true, requiredVersion: 'auto'},
-        "@angular/router": {singleton: true, requiredVersion: 'auto'},
-      },
+        "@angular/common": { singleton: true, requiredVersion: false },
+        "@angular/common/http": { singleton: true, requiredVersion: false },
+        "@angular/compiler": { singleton: true, requiredVersion: false },
+        "@angular/core": { singleton: true, requiredVersion: false },
+        "@angular/forms": { singleton: true, requiredVersion: false },
+        "@angular/platform-browser": {
+          singleton: true,
+          requiredVersion: false
+        },
+        "@angular/platform-browser-dynamic": {
+          singleton: true,
+          requiredVersion: false
+        },
+        "@angular/router": { singleton: true, requiredVersion: false },
+        "rxjs": { singleton: true, requiredVersion: false },
+        "rxjs/operators": { singleton: true, requiredVersion: false }
+      }
     })
   ]
-}
+};
